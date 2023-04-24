@@ -1,0 +1,2 @@
+CONTROLES:
+O, P, ESPAÇO E F
