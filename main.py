@@ -13,7 +13,6 @@ from game_objects import Dinosaur, Obstacle, Ground
 from utils import draw_dinosaur, draw_fireball, draw_ground
 
 def main():
-    # Inicializa o pygame e define a resolução da janela
     pygame.init()
     display = (800, 600)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -46,16 +45,15 @@ def main():
     }
     """
 
-    # Cria e compila os shaders
+    # Create and compile the shaders
     shader_program = create_shader_program(vertex_shader_source, fragment_shader_source)
     glUseProgram(shader_program)
 
-    # Cria as matrizes de projeção e as passa para os shaders
+    # Create the projection matrices and pass them to the shaders
     projection_matrix = np.eye(4, dtype=np.float32)
     gluPerspective(30, display[0] / display[1], 0.5, 100.0)
 
-
-    # Busca a localização das variáveis uniformes nos shaders
+    # Retrieve the location of the uniform variables in the shaders
     model_loc = glGetUniformLocation(shader_program, "model")
     view_loc = glGetUniformLocation(shader_program, "modelview")
     projection_loc = glGetUniformLocation(shader_program, "projection")
@@ -64,19 +62,18 @@ def main():
     glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection_matrix)
     glUniformMatrix4fv(model_loc,  1, GL_FALSE, projection_matrix)
     
-    # Cria os objetos do jogo
+    # Create the game objects
     ground = Ground()
     dinosaur = Dinosaur()
 
     clock = pygame.time.Clock()
-    # Inicializa o contador de obstáculos e a lista de bolas de fogo
+
+    # Initialize the obstacle counter and the list of fireballs
     obstacle_counter = 0
     fireballs = []
     glClearColor(1.0, 1.0, 1.0, 1.0)
 
-    # Loop principal do jogo
     while True:
-        # Trata eventos do teclado
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -91,10 +88,9 @@ def main():
                 elif event.key == pygame.K_p:
                     dinosaur.set_scale(max(dinosaur.scale - 0.1, 0.1))
 
-            
         glClear(GL_COLOR_BUFFER_BIT)
 
-        # Atualiza os objetos do jogo e verifica colisões
+        # Update game objects and check for collisions
         dinosaur.update()
         ground.update()
         Obstacle.update_obstacles()
@@ -113,7 +109,7 @@ def main():
                     fireballs.remove(fireball)
                     break
 
-        # Desenha os objetos na tela
+        # Draw the game objects
         ground.draw(draw_ground, model_loc, view_loc, projection_loc, color_loc, ground.color)
         dinosaur.draw(draw_dinosaur, model_loc, view_loc, projection_loc, color_loc, dinosaur.color)
 

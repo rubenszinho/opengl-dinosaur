@@ -3,7 +3,8 @@ from OpenGL.GL import *
 import numpy as np
 from utils import draw_cactus, draw_bird
 
-# O dinossauro cresce e diminui com as teclas o, p e da um double jump, no segundo pulo ele gira como pedido no trabalho e translaciona
+# The dinosaur grows and shrinks with the keys 'o' and 'p' and can perform a double jump.
+# On the second jump, it spins as required in the assignment and translates.
 class Dinosaur:
     def __init__(self):
         self.x = -0.8
@@ -53,19 +54,19 @@ class Dinosaur:
                                         [0, 0, 1, 0],
                                         [0, 0, 0, 1]], dtype=np.float32)
 
-        # Rotacionar para fazer o backflip
+        # Rotate to perform the backflip
         rotation_matrix = np.array([[np.cos(np.radians(self.angle)), -np.sin(np.radians(self.angle)), 0, 0],
                                     [np.sin(np.radians(self.angle)), np.cos(np.radians(self.angle)), 0, 0],
                                     [0, 0, 1, 0],
                                     [0, 0, 0, 1]], dtype=np.float32)
 
-        # Aplicando matriz de escala
+        # Applying scale matrix
         scale_matrix = np.array([[self.scale, 0, 0, 0],
                                 [0, self.scale, 0, 0],
                                 [0, 0, self.scale, 0],
                                 [0, 0, 0, 1]], dtype=np.float32)
 
-        # Translacionar para posição original
+        # Translate back to original position
         translate_back = np.array([[1, 0, 0, self.x + 0.2],
                                 [0, 1, 0, self.y + 0.25],
                                 [0, 0, 1, 0],
@@ -92,7 +93,7 @@ class Dinosaur:
                 dinosaur_bb[1] + dinosaur_bb[3] > obstacle_bb[1])
 
     def shoot_fireball(self):
-        return Fireball(-0.65, self.y + 0.5)  # Criar fireball a partir da posição do dinossauro
+        return Fireball(-0.65, self.y + 0.5)  # Create fireball from the dinosaur's position
     
 class Obstacle:
     _obstacles = []
@@ -161,7 +162,7 @@ class Ground:
 class Fireball:
     def __init__(self, x, y):
         self.x = x + 0.45
-        self.y = y -0.04
+        self.y = y - 0.04
         self.speed = 0.005
         self.size = 0.01
         self.max_size = 0.3
@@ -169,7 +170,7 @@ class Fireball:
 
     def update(self):
         self.x += self.speed
-        self.size += 0.001  # Aumentar tamanho da fireball a cada frame
+        self.size += 0.001  # Increase the size of the fireball each frame
 
     def draw(self, draw_fireball_func, model_location, view_location, projection_location, color_location, color):
         model = np.eye(4, dtype=np.float32)
