@@ -7,10 +7,12 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
-from shaders import create_shader_program
-
-from game_objects import Dinosaur, Obstacle, Ground
-from utils import draw_dinosaur, draw_fireball, draw_ground
+from dinosaur_game.entities.dinosaur import Dinosaur
+from dinosaur_game.entities.obstacle import Obstacle
+from dinosaur_game.entities.ground import Ground
+from dinosaur_game.entities.fireball import Fireball
+from dinosaur_game.graphics.utils import draw_dinosaur, draw_fireball, draw_ground
+from dinosaur_game.graphics.shaders import create_shader_program
 
 def main():
     pygame.init()
